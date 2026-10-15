@@ -2,6 +2,8 @@
 
 ### 編寫、預覽，將訊息送到 Discord
 
+![preview-1](https://github.com/AmeMizuki/webhook-studio/releases/download/preview/preview-1.jpg)
+
 [English](README.md) | 繁體中文
 
 透過 Webhook，將文字、圖片、影片與檔案傳送到 Discord 頻道。送出前可預覽內容、自訂顯示名稱，或傳送至現有討論串，不需要註冊帳號。
