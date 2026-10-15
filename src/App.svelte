@@ -22,10 +22,18 @@
   });
 
   let webhook = $state('');
+  try { webhook = localStorage.getItem('webhook-studio.webhook') || ''; } catch { /* Sending still works without storage. */ }
+  $effect(() => {
+    try {
+      if (webhook) localStorage.setItem('webhook-studio.webhook', webhook);
+      else localStorage.removeItem('webhook-studio.webhook');
+    } catch { /* Storage may be disabled by browser privacy settings. */ }
+  });
   let content = $state('');
   let username = $state('');
   let threadId = $state('');
   let files = $state<File[]>([]);
+  let dragging = $state(false);
   let imageUrls = $state<string[]>([]);
   let reveal = $state(false);
   let sending = $state(false);
@@ -44,6 +52,12 @@
     return () => { for (const url of urls) if (url) URL.revokeObjectURL(url); };
   });
 
+  function addFiles(selected: FileList | null | undefined) {
+    if (sending || !selected?.length) return;
+    files = [...files, ...Array.from(selected)];
+    success = '';
+  }
+
   async function submit(event: SubmitEvent) {
     event.preventDefault();
     if (sending) return;
@@ -52,6 +66,8 @@
     try {
       const id = await sendMessage({ webhook, content, username, threadId, files });
       success = id;
+      content = '';
+      files = [];
     } catch (cause) {
       error = cause instanceof WebhookError ? cause : new WebhookError('unexpected');
       if (errorField === 'threadId' || errorField === 'username') advanced = true;
@@ -127,11 +143,22 @@
                 <div class="attachment-section">
                   <div class="label-row"><label for="file-input"><Paperclip size={14} />{t.attachments}</label><span class="format-label" role="status">{t.fileCount(numbers.format(files.length))}</span></div>
                   <input id="file-input" name="files" type="file" multiple hidden onchange={(event) => {
-                    files = [...files, ...Array.from(event.currentTarget.files || [])];
+                    addFiles(event.currentTarget.files);
                     event.currentTarget.value = '';
-                    success = '';
                   }} />
-                  <Button id="files" variant="outline" class="choose-files" aria-invalid={errorField === 'files'} aria-describedby={errorField === 'files' ? 'files-error attachment-hint' : 'attachment-hint'} onclick={() => document.getElementById('file-input')?.click()}><Paperclip size={15} />{t.chooseFiles}</Button>
+                  <Button id="files" variant="outline" class="choose-files" data-dragging={dragging} aria-invalid={errorField === 'files'} aria-describedby={errorField === 'files' ? 'files-error attachment-hint' : 'attachment-hint'} onclick={() => document.getElementById('file-input')?.click()}
+                    ondragover={(event) => {
+                      if (!event.dataTransfer?.types.includes('Files')) return;
+                      event.preventDefault();
+                      event.dataTransfer.dropEffect = sending ? 'none' : 'copy';
+                      dragging = !sending;
+                    }}
+                    ondragleave={() => dragging = false}
+                    ondrop={(event) => {
+                      event.preventDefault();
+                      dragging = false;
+                      addFiles(event.dataTransfer?.files);
+                    }}><Paperclip size={15} />{t.chooseFiles}</Button>
                   {@render fieldError('files')}
                   <p class="field-hint" id="attachment-hint">{t.attachmentHint}</p>
                   {#if files.length}

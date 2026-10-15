@@ -29,6 +29,8 @@ bun start      # Serve the built site
 bun test       # Run tests
 ```
 
+For the browser smoke check, open a fresh local app tab and run the contents of `checks/composer.js` in DevTools. It uses fake Discord responses to check file selection/drop, draft retention on failure, clearing on success, and saving/forgetting the Webhook URL; it never sends to Discord.
+
 To publish the site, upload the contents of `dist/` to a static hosting service.
 
 ## Usage
@@ -43,7 +45,7 @@ To publish the site, upload the contents of `dist/` to a static hosting service.
 
 - The preview shows plain text and images. Markdown is supported when sending, but is not rendered in the preview. Videos and other files appear by filename.
 - Use **View preview** and **Back to editor** in the single-column layout to move between sections.
-- Add attachments in multiple selections and remove individual files before sending. **Clear message** removes both text and attachments. **Use example** replaces the current message text.
+- Select attachments or drag and drop them onto the file button, in multiple batches, and remove individual files before sending. **Clear message** removes both text and attachments. **Use example** replaces the current message text.
 - Use the **JSON body** view to inspect the message data. It does not include the destination URL or file contents.
 - Switch between **EN** and **繁中** without clearing your draft.
 
@@ -51,9 +53,9 @@ To publish the site, upload the contents of `dist/` to a static hosting service.
 
 - A Webhook can only post to its linked channel. To change channels, use that channel’s Webhook URL.
 - Keep the Webhook URL private: anyone with it can send messages. If exposed, delete and recreate the Webhook in Discord.
-- Your Webhook URL and attachments stay in the current page until you send. Refreshing clears your draft and selected files.
+- The Webhook URL is remembered in this browser using local storage when available, including after reopening the page. Clear the URL field to forget it; avoid saving it in a shared browser. Refreshing clears your draft and selected files, not the saved URL.
 - Messages are sent directly to Discord. Mention notifications, including `@everyone`, are disabled.
-- A failed send keeps your draft and attachments. If delivery cannot be confirmed, check Discord before trying again to avoid duplicates.
+- A successful send clears the message and attachments while keeping the Webhook URL. A failed send keeps your draft and attachments. If delivery cannot be confirmed, check Discord before trying again to avoid duplicates.
 
 ## Sources
 
