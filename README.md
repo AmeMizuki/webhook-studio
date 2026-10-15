@@ -2,6 +2,8 @@
 
 ### Compose, preview, and send messages to Discord
 
+![preview](https://github.com/AmeMizuki/webhook-studio/releases/download/preview/preview-1.jpg)
+
 English | [繁體中文](README.zh-TW.md)
 
 Send text, images, videos, and files to a Discord channel using a Webhook. Preview your content before sending, customize the display name, or post to an existing thread. No account is required.
