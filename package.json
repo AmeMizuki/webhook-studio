@@ -1,0 +1,22 @@
+{
+  "name": "discord-webhook-messager",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run build && bun server.ts",
+    "build": "bun build.ts && bunx --no-install @tailwindcss/cli -i ./src/app.css -o ./dist/app.css --minify",
+    "start": "bun server.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "svelte": "^5.0.0",
+    "@lucide/svelte": "^1.57.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.0",
+    "tailwind-variants": "^3.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
