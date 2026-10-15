@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "bun run build && bun server.ts",
     "build": "bun build.ts && bunx --no-install @tailwindcss/cli -i ./src/app.css -o ./dist/app.css --minify",
-    "start": "bun server.ts",
-    "test": "bun test"
+    "start": "bun server.ts"
   },
   "dependencies": {
     "svelte": "^5.0.0",

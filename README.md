@@ -26,10 +26,7 @@ After editing the source, stop the server and run `bun run dev` again. Changes a
 ```sh
 bun run build  # Build the site into dist/
 bun start      # Serve the built site
-bun test       # Run tests
 ```
-
-For the browser smoke check, open a fresh local app tab and run the contents of `checks/composer.js` in DevTools. It uses fake Discord responses to check file selection/drop, draft retention on failure, clearing on success, and saving/forgetting the Webhook URL; it never sends to Discord.
 
 To publish the site, upload the contents of `dist/` to a static hosting service.
 

@@ -26,10 +26,7 @@ bun run dev
 ```sh
 bun run build  # 建置網站至 dist/
 bun start      # 啟動已建置的網站
-bun test       # 執行測試
 ```
-
-瀏覽器冒煙檢查：開啟全新的本機網站分頁，在 DevTools 執行 `checks/composer.js` 的內容。檢查使用模擬 Discord 回應，驗證選檔／拖放、失敗保留草稿、成功清空，以及 Webhook 網址的儲存／移除，不會真的送出至 Discord。
 
 若要發布網站，將 `dist/` 內的內容上傳至靜態網站服務即可。
 
